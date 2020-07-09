@@ -23,7 +23,8 @@
     "homepage": "https://bitbucket.org/camilo0119/graphql-api#readme",
     "dependencies": {
         "cross-env": "^7.0.2",
-        "graphql-yoga": "^1.18.3"
+        "graphql-yoga": "^1.18.3",
+        "uuid": "^8.1.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.10.1",
