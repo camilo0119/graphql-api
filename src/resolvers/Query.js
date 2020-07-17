@@ -1,27 +1,49 @@
+import { getUserId } from '../utils'
+
 const Query = {
     hello(parent, args, ctx, info) {
         const { name } = args
         return `Hello ${name || 'world'}`
     },
     quantity: () => 1,
-    user: (parent, { id }, ctx, info) => {
-        const { db } = ctx
+    user: (parent, { id }, { request, prisma }, info) => {
+        const userId = getUserId(request)
         if (!id) {
-            return db.users
+            return prisma.users.findMany()
         }
-        return db.users.filter(user => user.id === id)
+        return prisma.users.findOne({
+            where: {
+                id
+            }
+        })
     },
-    author: (parent, { id }, { db }, info) => {
+    author: (parent, { id, first, skip }, { prisma, request }, info) => {
+
+        const userId = getUserId(request)
+
         if (!id) {
-            return db.authors
+            return prisma.authors.findMany({
+                first,
+                skip
+            })
         }
-        return db.authors.filter(author => author.id === id)
+
+        return prisma.authors.findOne({
+            where: {
+                id
+            }
+        })
     },
-    book: (parent, { id }, { db }, info) => {
+    book: (parent, { id }, { prisma, request }, info) => {
+        const userId = getUserId(request)
         if (!id) {
-            return db.books
+            return prisma.books.findMany()
         }
-        return db.books.filter(book => book.id === id)
+        return prisma.books.findOne({
+            where: {
+                id
+            }
+        })
     }
 }
 

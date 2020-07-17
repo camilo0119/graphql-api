@@ -2,14 +2,14 @@ type Query {
   hello (name: String): String!
   quantity: Int!
   user(id: ID): [User!]!
-  author(id: ID): [Author!]!
+  author(id: ID, first: Int, skip: Int): [Author!]!
   book(id: ID): [Book!]!
 }
 
 type User {
   id: ID!
   name: String!
-  lastName: String!
+  lastname: String!
   email: String!
 }
 
@@ -32,9 +32,8 @@ type Book {
 }
 
 type Mutation {
-  createUser(
-    data: createUserInput
-  ): User!
+  signUp(data: signUpInput!): AuthPayload!
+  login(data: loginInput!): AuthPayload!
   updateUser(
     id: ID!
     data: updateUserInput
@@ -80,16 +79,26 @@ type BookSuscriptionPayload {
   data: Book!
 }
 
-input createUserInput {
+input signUpInput {
   name: String!
-  lastName: String!
+  lastname: String!
   email: String!
   password: String!
 }
 
+input loginInput {
+  email: String!
+  password: String!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
 input updateUserInput {
     name: String
-    lastName: String
+    lastname: String
     email: String
     password: String
 }

@@ -5,13 +5,17 @@ import Author from './resolvers/Author'
 import Book from './resolvers/Book'
 import Mutation from './resolvers/Mutation'
 import Subscription from './resolvers/Subscription'
+import { PrismaClient } from '@prisma/client'
 
 
 const pubsub = new PubSub()
 
+const prisma = new PrismaClient()
+
 const context = {
     db,
-    pubsub
+    pubsub,
+    prisma
 }
 
 const resolvers = {
@@ -25,7 +29,12 @@ const resolvers = {
 const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
-    context
+    context: request => {
+        return {
+            ...request,
+            ...context
+        }
+    }
 })
 
 server.start(() => {
