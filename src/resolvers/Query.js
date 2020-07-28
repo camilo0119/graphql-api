@@ -17,13 +17,13 @@ const Query = {
             }
         })
     },
-    author: (parent, { id, first, skip, orderBy }, { prisma, request }, info) => {
+    author: (parent, { id, take, skip, orderBy }, { prisma, request }, info) => {
 
         const userId = getUserId(request)
 
         if (!id) {
             return prisma.authors.findMany({
-                first,
+                take,
                 skip,
                 orderBy
             })
@@ -35,12 +35,13 @@ const Query = {
             }
         })
     },
-    book: (parent, { id, first, skip }, { prisma, request }, info) => {
+    book: (parent, { id, take, skip, orderBy }, { prisma, request }, info) => {
         const userId = getUserId(request)
         if (!id) {
             return prisma.books.findMany({
-                first,
-                skip
+                take,
+                skip,
+                orderBy
             })
         }
         return prisma.books.findOne({

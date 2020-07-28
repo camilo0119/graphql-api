@@ -2,8 +2,8 @@ type Query {
   hello (name: String): String!
   quantity: Int!
   user(id: ID): [User!]!
-  author(id: ID, first: Int, skip: Int, orderBy: AuthorOrderByInput): [Author!]!
-  book(id: ID, first: Int, skip: Int): [Book!]!
+  author(id: ID, take: Int, skip: Int, orderBy: AuthorOrderByInput): [Author!]!
+  book(id: ID, take: Int, skip: Int, orderBy: BookOrderByInput): [Book!]!
 }
 
 type User {
@@ -136,6 +136,13 @@ input AuthorOrderByInput {
   id: OrderByArg
   name: OrderByArg
   country: OrderByArg
+}
+
+input BookOrderByInput {
+  id: OrderByArg
+  title: OrderByArg
+  quantity: OrderByArg
+  price: OrderByArg
 }
 
 enum OrderByArg {
